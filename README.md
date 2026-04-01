@@ -1,7 +1,9 @@
 Aplicando o primeiro principio SOLID (Princípio da Responsabilidade Única). <p>
 Alterado o imprimirTabuleiroFen, que antes estava no App, agora foi colocado em uma View, repeitando o primeiro principio do SOLID. <p>
 Alterado o calcularNota para a classe Tentativa.
-Alterado a parte que imprime o tabuleiro, retirado do main e colocado no ConsoleView. <p><p>
+Alterado a parte que imprime o tabuleiro, retirado do main e colocado no ConsoleView. <p>
+Alterado o cadastrarParticipante para o participanteController<p>
+Alterado tambem o App e removido o cadastrarParticipante, agora eu tenho uma instancia do meu participanteController<p>
 ------------------------------------------------------------<p>
 Aplicando o segundo princípio SOLID (Princípio Aberto/Fechado). <p>
 Alterado a classe Questao para abstract e criado os metodos exibirAluno e verificarResposta. <p>

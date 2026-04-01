@@ -1,23 +1,23 @@
 package br.com.ucsal.olimpiadas;
 
+import br.com.ucsal.olimpiadas.controller.ParticipanteController;
 import br.com.ucsal.olimpiadas.model.*;
 import br.com.ucsal.olimpiadas.repository.BancoDeDadosTemp;
 import br.com.ucsal.olimpiadas.view.ConsoleView;
 import br.com.ucsal.olimpiadas.view.QuestaoTabuleiro;
-import br.com.ucsal.olimpiadas.view.TabuleiroView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 public class App {
+
+	private static final ParticipanteController participanteController = new ParticipanteController();
+
 	static void main() {
 		seed();
 
 		while (true) {
 			ConsoleView.exibirMenu();
 			switch ( ConsoleView.pegaInput("")) {
-			case "1" -> cadastrarParticipante();
+			case "1" -> participanteController.cadastrarParticipante();
 			case "2" -> cadastrarProva();
 			case "3" -> cadastrarQuestao();
 			case "4" -> aplicarProva();
@@ -29,25 +29,6 @@ public class App {
 			default -> System.out.println("opção inválida");
 			}
 		}
-	}
-
-	static void cadastrarParticipante() {
-		var nome = ConsoleView.pegaInput("Nome: ");
-
-		var email = ConsoleView.pegaInput("Email (opcional): ");
-
-		if (nome == null || nome.isBlank()) {
-			System.out.println("nome inválido");
-			return;
-		}
-
-		var p = new Participante();
-		p.setId(BancoDeDadosTemp.proximoParticipanteId++);
-		p.setNome(nome);
-		p.setEmail(email);
-
-		BancoDeDadosTemp.participantes.add(p);
-		System.out.println("Participante cadastrado: " + p.getId());
 	}
 
 	static void cadastrarProva() {

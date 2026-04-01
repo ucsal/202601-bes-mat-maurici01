@@ -1,7 +1,5 @@
 package br.com.ucsal.olimpiadas.model;
 
-import java.util.Arrays;
-
 public abstract class Questao {
 
 	private long id;
