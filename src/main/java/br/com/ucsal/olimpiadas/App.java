@@ -1,6 +1,7 @@
 package br.com.ucsal.olimpiadas;
 
 import br.com.ucsal.olimpiadas.controller.ParticipanteController;
+import br.com.ucsal.olimpiadas.controller.ProvaController;
 import br.com.ucsal.olimpiadas.model.*;
 import br.com.ucsal.olimpiadas.repository.BancoDeDadosTemp;
 import br.com.ucsal.olimpiadas.view.ConsoleView;
@@ -10,6 +11,7 @@ import br.com.ucsal.olimpiadas.view.QuestaoTabuleiro;
 public class App {
 
 	private static final ParticipanteController participanteController = new ParticipanteController();
+	private static final ProvaController provaController = new ProvaController();
 
 	static void main() {
 		seed();
@@ -18,7 +20,7 @@ public class App {
 			ConsoleView.exibirMenu();
 			switch ( ConsoleView.pegaInput("")) {
 			case "1" -> participanteController.cadastrarParticipante();
-			case "2" -> cadastrarProva();
+			case "2" -> provaController.cadastrarProva();
 			case "3" -> cadastrarQuestao();
 			case "4" -> aplicarProva();
 			case "5" -> listarTentativas();
@@ -31,29 +33,13 @@ public class App {
 		}
 	}
 
-	static void cadastrarProva() {
-		var titulo = ConsoleView.pegaInput("Título da prova: ");
-
-		if (titulo == null || titulo.isBlank()) {
-			System.out.println("título inválido");
-			return;
-		}
-
-		var prova = new Prova();
-		prova.setId(BancoDeDadosTemp.proximaProvaId++);
-		prova.setTitulo(titulo);
-
-		BancoDeDadosTemp.provas.add(prova);
-		System.out.println("Prova criada: " + prova.getId());
-	}
-
 	static void cadastrarQuestao() {
 		if (BancoDeDadosTemp.provas.isEmpty()) {
 			System.out.println("não há provas cadastradas");
 			return;
 		}
 
-		var provaId = escolherProva();
+		var provaId = provaController.escolherProva();
 		if (provaId == null)
 			return;
 
@@ -101,7 +87,7 @@ public class App {
 		if (participanteId == null)
 			return;
 
-		var provaId = escolherProva();
+		var provaId = provaController.escolherProva();
 		if (provaId == null)
 			return;
 
@@ -162,27 +148,6 @@ public class App {
 		try {
 			long id = Long.parseLong( ConsoleView.pegaInput(""));
 			boolean existe = BancoDeDadosTemp.participantes.stream().anyMatch(p -> p.getId() == id);
-			if (!existe) {
-				System.out.println("id inválido");
-				return null;
-			}
-			return id;
-		} catch (Exception e) {
-			System.out.println("entrada inválida");
-			return null;
-		}
-	}
-
-	static Long escolherProva() {
-		System.out.println("\nProvas:");
-		for (var p : BancoDeDadosTemp.provas) {
-			System.out.printf("  %d) %s%n", p.getId(), p.getTitulo());
-		}
-		System.out.print("Escolha o id da prova: ");
-
-		try {
-			long id = Long.parseLong( ConsoleView.pegaInput(""));
-			boolean existe = BancoDeDadosTemp.provas.stream().anyMatch(p -> p.getId() == id);
 			if (!existe) {
 				System.out.println("id inválido");
 				return null;

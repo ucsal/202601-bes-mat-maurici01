@@ -4,6 +4,7 @@ Alterado o calcularNota para a classe Tentativa.
 Alterado a parte que imprime o tabuleiro, retirado do main e colocado no ConsoleView. <p>
 Alterado o cadastrarParticipante para o participanteController<p>
 Alterado tambem o App e removido o cadastrarParticipante, agora eu tenho uma instancia do meu participanteController<p>
+Alterado os metodos cadastrarProva e escolherProva para o provaController<p>
 ------------------------------------------------------------<p>
 Aplicando o segundo princípio SOLID (Princípio Aberto/Fechado). <p>
 Alterado a classe Questao para abstract e criado os metodos exibirAluno e verificarResposta. <p>
