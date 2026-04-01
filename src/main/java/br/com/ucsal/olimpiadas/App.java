@@ -10,25 +10,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class App {
-
-	/*
-	* S – Single Responsibility Principle (SRP)
-	* O – Open/Closed Principle (OCP)
-	* L – Liskov Substitution Principle (LSP)
-	* I – Interface Segregation Principle (ISP)
-	* D – Dependency Inversion Principle (DIP)
-	*/
-
-
-
 	public static void main(String[] args) {
 		seed();
 
-
-		// isso vai virar uma outra classe com um metodo chamado executar() 1
 		while (true) {
-
-
+			ConsoleView.exibirMenu();
 			switch ( ConsoleView.pegaInput("")) {
 			case "1" -> cadastrarParticipante();
 			case "2" -> cadastrarProva();
@@ -189,8 +175,6 @@ public class App {
 		System.out.println("\n--- Fim da Prova ---");
 		System.out.println("Nota (acertos): " + nota + " / " + tentativa.getRespostas().size());
 	}
-
-
 
 
 	static void listarTentativas() {
