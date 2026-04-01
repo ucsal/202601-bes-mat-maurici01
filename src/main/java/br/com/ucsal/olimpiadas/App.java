@@ -1,10 +1,21 @@
 package br.com.ucsal.olimpiadas;
 
+import br.com.ucsal.olimpiadas.model.*;
+import br.com.ucsal.olimpiadas.view.TabuleiroView;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class App {
+
+	/*
+	* S – Single Responsibility Principle (SRP)
+	* O – Open/Closed Principle (OCP)
+	* L – Liskov Substitution Principle (LSP)
+	* I – Interface Segregation Principle (ISP)
+	* D – Dependency Inversion Principle (DIP)
+	*/
 
 	static long proximoParticipanteId = 1;
 	static long proximaProvaId = 1;
@@ -21,6 +32,8 @@ public class App {
 	public static void main(String[] args) {
 		seed();
 
+
+		// isso vai virar uma outra classe com um metodo chamado executar() 1
 		while (true) {
 			System.out.println("\n=== OLIMPÍADA DE QUESTÕES (V1) ===");
 			System.out.println("1) Cadastrar participante");
@@ -46,6 +59,7 @@ public class App {
 		}
 	}
 
+	//tem que sumir daqui, pode ser o mesmo nome porem em outro lugar algo do participante 2
 	static void cadastrarParticipante() {
 		System.out.print("Nome: ");
 		var nome = in.nextLine();
@@ -66,7 +80,8 @@ public class App {
 		participantes.add(p);
 		System.out.println("Participante cadastrado: " + p.getId());
 	}
-
+	// no 3 eu preciso tambem ter algo relacionado a exibição
+	//relacionado a criar novaProva 3
 	static void cadastrarProva() {
 		System.out.print("Título da prova: ");
 		var titulo = in.nextLine();
@@ -83,7 +98,7 @@ public class App {
 		provas.add(prova);
 		System.out.println("Prova criada: " + prova.getId());
 	}
-
+	// relação com o 3
 	static void cadastrarQuestao() {
 		if (provas.isEmpty()) {
 			System.out.println("não há provas cadastradas");
@@ -126,6 +141,7 @@ public class App {
 	}
 
 
+	// não sei onde fica, se vai ser mantido no 3 ou em outro
 	static void aplicarProva() {
 		if (participantes.isEmpty()) {
 			System.out.println("cadastre participantes primeiro");
@@ -163,7 +179,7 @@ public class App {
 			System.out.println(q.getEnunciado());
 
 			System.out.println("Posição inicial:");
-			imprimirTabuleiroFen(q.getFenInicial());
+			TabuleiroView.imprimirTabuleiroFen(q.getFenInicial());
 
 			for (var alt : q.getAlternativas()) {
 			    System.out.println(alt);
@@ -193,6 +209,7 @@ public class App {
 		System.out.println("Nota (acertos): " + nota + " / " + tentativa.getRespostas().size());
 	}
 
+	//3
 	public static int calcularNota(Tentativa tentativa) {
 		int acertos = 0;
 		for (var r : tentativa.getRespostas()) {
@@ -201,6 +218,7 @@ public class App {
 		}
 		return acertos;
 	}
+
 
 	static void listarTentativas() {
 		System.out.println("\n--- Tentativas ---");
@@ -232,6 +250,7 @@ public class App {
 		}
 	}
 
+
 	static Long escolherProva() {
 		System.out.println("\nProvas:");
 		for (var p : provas) {
@@ -253,41 +272,10 @@ public class App {
 		}
 	}
 
-	static void imprimirTabuleiroFen(String fen) {
-
-		String parteTabuleiro = fen.split(" ")[0];
-		String[] ranks = parteTabuleiro.split("/");
-
-		System.out.println();
-		System.out.println("    a b c d e f g h");
-		System.out.println("   -----------------");
-
-		for (int r = 0; r < 8; r++) {
-
-			String rank = ranks[r];
-			System.out.print((8 - r) + " | ");
-
-			for (char c : rank.toCharArray()) {
-
-				if (Character.isDigit(c)) {
-					int vazios = c - '0';
-					for (int i = 0; i < vazios; i++) {
-						System.out.print(". ");
-					}
-				} else {
-					System.out.print(c + " ");
-				}
-			}
-
-			System.out.println("| " + (8 - r));
-		}
-
-		System.out.println("   -----------------");
-		System.out.println("    a b c d e f g h");
-		System.out.println();
-	}
+	//uma classe para imprimit o tabuleiro
 
 
+	//IniciarProva ou exibir prova
 	static void seed() {
 
 		var prova = new Prova();
