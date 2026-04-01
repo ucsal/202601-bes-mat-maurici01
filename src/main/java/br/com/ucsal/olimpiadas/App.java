@@ -3,6 +3,7 @@ package br.com.ucsal.olimpiadas;
 import br.com.ucsal.olimpiadas.model.*;
 import br.com.ucsal.olimpiadas.repository.BancoDeDadosTemp;
 import br.com.ucsal.olimpiadas.view.ConsoleView;
+import br.com.ucsal.olimpiadas.view.QuestaoTabuleiro;
 import br.com.ucsal.olimpiadas.view.TabuleiroView;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class App {
-	public static void main(String[] args) {
+	static void main() {
 		seed();
 
 		while (true) {
@@ -30,7 +31,6 @@ public class App {
 		}
 	}
 
-	//tem que sumir daqui, pode ser o mesmo nome porem em outro lugar algo do participante 2
 	static void cadastrarParticipante() {
 		var nome = ConsoleView.pegaInput("Nome: ");
 
@@ -49,8 +49,7 @@ public class App {
 		BancoDeDadosTemp.participantes.add(p);
 		System.out.println("Participante cadastrado: " + p.getId());
 	}
-	// no 3 eu preciso tambem ter algo relacionado a exibição
-	//relacionado a criar novaProva 3
+
 	static void cadastrarProva() {
 		var titulo = ConsoleView.pegaInput("Título da prova: ");
 
@@ -66,7 +65,7 @@ public class App {
 		BancoDeDadosTemp.provas.add(prova);
 		System.out.println("Prova criada: " + prova.getId());
 	}
-	// relação com o 3
+
 	static void cadastrarQuestao() {
 		if (BancoDeDadosTemp.provas.isEmpty()) {
 			System.out.println("não há provas cadastradas");
@@ -89,13 +88,13 @@ public class App {
 		System.out.print("Alternativa correta (A–E): ");
 		char correta;
 		try {
-			correta = Questao.normalizar( ConsoleView.pegaInput("").trim().charAt(0));
+			correta = QuestaoTabuleiro.normalizar( ConsoleView.pegaInput("").trim().charAt(0));
 		} catch (Exception e) {
 			System.out.println("alternativa inválida");
 			return;
 		}
 
-		var q = new Questao();
+		var q = new QuestaoTabuleiro();
 		q.setId(BancoDeDadosTemp.proximaQuestaoId++);
 		q.setProvaId(provaId);
 		q.setEnunciado(enunciado);
@@ -107,8 +106,6 @@ public class App {
 		System.out.println("Questão cadastrada: " + q.getId() + " (na prova " + provaId + ")");
 	}
 
-
-	// não sei onde fica, se vai ser mantido no 3 ou em outro
 	static void aplicarProva() {
 		if (BancoDeDadosTemp.participantes.isEmpty()) {
 			System.out.println("cadastre participantes primeiro");
@@ -143,29 +140,18 @@ public class App {
 
 		for (var q : questoesDaProva) {
 			System.out.println("\nQuestão #" + q.getId());
-			System.out.println(q.getEnunciado());
+			q.exibirParaAluno();
 
-			System.out.println("Posição inicial:");
-			TabuleiroView.imprimirTabuleiroFen(q.getFenInicial());
+			String entrada = ConsoleView.pegaInput("Sua resposta (A–E): ");
+			boolean acertou = q.verificaResposta(entrada);
 
-			for (var alt : q.getAlternativas()) {
-			    System.out.println(alt);
-			}
-
-			System.out.print("Sua resposta (A–E): ");
-			char marcada;
-			try {
-				marcada = Questao.normalizar( ConsoleView.pegaInput("").trim().charAt(0));
-			} catch (Exception e) {
-				System.out.println("resposta inválida (marcando como errada)");
-				marcada = 'X';
-			}
 
 			var r = new Resposta();
 			r.setQuestaoId(q.getId());
-			r.setAlternativaMarcada(marcada);
-			r.setCorreta(q.isRespostaCorreta(marcada));
-
+			r.setCorreta(acertou);
+			if(!entrada.isBlank()){
+				r.setAlternativaMarcada(Character.toUpperCase(entrada.charAt(0)));
+			}
 			tentativa.getRespostas().add(r);
 		}
 
@@ -184,7 +170,6 @@ public class App {
 					t.getProvaId(), t.calcularNota(), t.getRespostas().size());
 		}
 	}
-
 
 	static Long escolherParticipante() {
 		System.out.println("\nParticipantes:");
@@ -207,7 +192,6 @@ public class App {
 		}
 	}
 
-
 	static Long escolherProva() {
 		System.out.println("\nProvas:");
 		for (var p : BancoDeDadosTemp.provas) {
@@ -229,10 +213,6 @@ public class App {
 		}
 	}
 
-	//uma classe para imprimit o tabuleiro
-
-
-	//IniciarProva ou exibir prova
 	static void seed() {
 
 		var prova = new Prova();
@@ -240,7 +220,7 @@ public class App {
 		prova.setTitulo("Olimpíada 2026 • Nível 1 • Prova A");
 		BancoDeDadosTemp.provas.add(prova);
 
-		var q1 = new Questao();
+		var q1 = new QuestaoTabuleiro();
 		q1.setId(BancoDeDadosTemp.proximaQuestaoId++);
 		q1.setProvaId(prova.getId());
 
