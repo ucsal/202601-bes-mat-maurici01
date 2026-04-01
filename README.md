@@ -1,0 +1,1 @@
+Alterado o imprimirTabuleiroFen, que antes estava no App, agora foi colocado em uma View, repeitando o primeiro principio do SOLID.
