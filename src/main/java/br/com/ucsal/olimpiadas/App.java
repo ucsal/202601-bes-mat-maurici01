@@ -204,27 +204,19 @@ public class App {
 
 		tentativas.add(tentativa);
 
-		int nota = calcularNota(tentativa);
+		int nota = tentativa.calcularNota();
 		System.out.println("\n--- Fim da Prova ---");
 		System.out.println("Nota (acertos): " + nota + " / " + tentativa.getRespostas().size());
 	}
 
-	//3
-	public static int calcularNota(Tentativa tentativa) {
-		int acertos = 0;
-		for (var r : tentativa.getRespostas()) {
-			if (r.isCorreta())
-				acertos++;
-		}
-		return acertos;
-	}
+
 
 
 	static void listarTentativas() {
 		System.out.println("\n--- Tentativas ---");
 		for (var t : tentativas) {
 			System.out.printf("#%d | participante=%d | prova=%d | nota=%d/%d%n", t.getId(), t.getParticipanteId(),
-					t.getProvaId(), calcularNota(t), t.getRespostas().size());
+					t.getProvaId(), t.calcularNota(), t.getRespostas().size());
 		}
 	}
 
