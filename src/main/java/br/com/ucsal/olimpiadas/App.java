@@ -1,6 +1,7 @@
 package br.com.ucsal.olimpiadas;
 
 import br.com.ucsal.olimpiadas.model.*;
+import br.com.ucsal.olimpiadas.repository.BancoDeDadosTemp;
 import br.com.ucsal.olimpiadas.view.TabuleiroView;
 
 import java.util.ArrayList;
@@ -16,16 +17,6 @@ public class App {
 	* I – Interface Segregation Principle (ISP)
 	* D – Dependency Inversion Principle (DIP)
 	*/
-
-	static long proximoParticipanteId = 1;
-	static long proximaProvaId = 1;
-	static long proximaQuestaoId = 1;
-	static long proximaTentativaId = 1;
-
-	static final List<Participante> participantes = new ArrayList<>();
-	static final List<Prova> provas = new ArrayList<>();
-	static final List<Questao> questoes = new ArrayList<>();
-	static final List<Tentativa> tentativas = new ArrayList<>();
 
 	private static final Scanner in = new Scanner(System.in);
 
@@ -73,11 +64,11 @@ public class App {
 		}
 
 		var p = new Participante();
-		p.setId(proximoParticipanteId++);
+		p.setId(BancoDeDadosTemp.proximoParticipanteId++);
 		p.setNome(nome);
 		p.setEmail(email);
 
-		participantes.add(p);
+		BancoDeDadosTemp.participantes.add(p);
 		System.out.println("Participante cadastrado: " + p.getId());
 	}
 	// no 3 eu preciso tambem ter algo relacionado a exibição
@@ -92,15 +83,15 @@ public class App {
 		}
 
 		var prova = new Prova();
-		prova.setId(proximaProvaId++);
+		prova.setId(BancoDeDadosTemp.proximaProvaId++);
 		prova.setTitulo(titulo);
 
-		provas.add(prova);
+		BancoDeDadosTemp.provas.add(prova);
 		System.out.println("Prova criada: " + prova.getId());
 	}
 	// relação com o 3
 	static void cadastrarQuestao() {
-		if (provas.isEmpty()) {
+		if (BancoDeDadosTemp.provas.isEmpty()) {
 			System.out.println("não há provas cadastradas");
 			return;
 		}
@@ -129,13 +120,13 @@ public class App {
 		}
 
 		var q = new Questao();
-		q.setId(proximaQuestaoId++);
+		q.setId(BancoDeDadosTemp.proximaQuestaoId++);
 		q.setProvaId(provaId);
 		q.setEnunciado(enunciado);
 		q.setAlternativas(alternativas);
 		q.setAlternativaCorreta(correta);
 
-		questoes.add(q);
+		BancoDeDadosTemp.questoes.add(q);
 
 		System.out.println("Questão cadastrada: " + q.getId() + " (na prova " + provaId + ")");
 	}
@@ -143,11 +134,11 @@ public class App {
 
 	// não sei onde fica, se vai ser mantido no 3 ou em outro
 	static void aplicarProva() {
-		if (participantes.isEmpty()) {
+		if (BancoDeDadosTemp.participantes.isEmpty()) {
 			System.out.println("cadastre participantes primeiro");
 			return;
 		}
-		if (provas.isEmpty()) {
+		if (BancoDeDadosTemp.provas.isEmpty()) {
 			System.out.println("cadastre provas primeiro");
 			return;
 		}
@@ -160,7 +151,7 @@ public class App {
 		if (provaId == null)
 			return;
 
-		var questoesDaProva = questoes.stream().filter(q -> q.getProvaId() == provaId).toList();
+		var questoesDaProva = BancoDeDadosTemp.questoes.stream().filter(q -> q.getProvaId() == provaId).toList();
 
 		if (questoesDaProva.isEmpty()) {
 			System.out.println("esta prova não possui questões cadastradas");
@@ -168,7 +159,7 @@ public class App {
 		}
 
 		var tentativa = new Tentativa();
-		tentativa.setId(proximaTentativaId++);
+		tentativa.setId(BancoDeDadosTemp.proximaTentativaId++);
 		tentativa.setParticipanteId(participanteId);
 		tentativa.setProvaId(provaId);
 
@@ -202,7 +193,7 @@ public class App {
 			tentativa.getRespostas().add(r);
 		}
 
-		tentativas.add(tentativa);
+		BancoDeDadosTemp.tentativas.add(tentativa);
 
 		int nota = tentativa.calcularNota();
 		System.out.println("\n--- Fim da Prova ---");
@@ -214,7 +205,7 @@ public class App {
 
 	static void listarTentativas() {
 		System.out.println("\n--- Tentativas ---");
-		for (var t : tentativas) {
+		for (var t : BancoDeDadosTemp.tentativas) {
 			System.out.printf("#%d | participante=%d | prova=%d | nota=%d/%d%n", t.getId(), t.getParticipanteId(),
 					t.getProvaId(), t.calcularNota(), t.getRespostas().size());
 		}
@@ -223,14 +214,14 @@ public class App {
 
 	static Long escolherParticipante() {
 		System.out.println("\nParticipantes:");
-		for (var p : participantes) {
+		for (var p : BancoDeDadosTemp.participantes) {
 			System.out.printf("  %d) %s%n", p.getId(), p.getNome());
 		}
 		System.out.print("Escolha o id do participante: ");
 
 		try {
 			long id = Long.parseLong(in.nextLine());
-			boolean existe = participantes.stream().anyMatch(p -> p.getId() == id);
+			boolean existe = BancoDeDadosTemp.participantes.stream().anyMatch(p -> p.getId() == id);
 			if (!existe) {
 				System.out.println("id inválido");
 				return null;
@@ -245,14 +236,14 @@ public class App {
 
 	static Long escolherProva() {
 		System.out.println("\nProvas:");
-		for (var p : provas) {
+		for (var p : BancoDeDadosTemp.provas) {
 			System.out.printf("  %d) %s%n", p.getId(), p.getTitulo());
 		}
 		System.out.print("Escolha o id da prova: ");
 
 		try {
 			long id = Long.parseLong(in.nextLine());
-			boolean existe = provas.stream().anyMatch(p -> p.getId() == id);
+			boolean existe = BancoDeDadosTemp.provas.stream().anyMatch(p -> p.getId() == id);
 			if (!existe) {
 				System.out.println("id inválido");
 				return null;
@@ -271,12 +262,12 @@ public class App {
 	static void seed() {
 
 		var prova = new Prova();
-		prova.setId(proximaProvaId++);
+		prova.setId(BancoDeDadosTemp.proximaProvaId++);
 		prova.setTitulo("Olimpíada 2026 • Nível 1 • Prova A");
-		provas.add(prova);
+		BancoDeDadosTemp.provas.add(prova);
 
 		var q1 = new Questao();
-		q1.setId(proximaQuestaoId++);
+		q1.setId(BancoDeDadosTemp.proximaQuestaoId++);
 		q1.setProvaId(prova.getId());
 
 		q1.setEnunciado("""
@@ -291,6 +282,6 @@ public class App {
 
 		q1.setAlternativaCorreta('C');
 
-		questoes.add(q1);
+		BancoDeDadosTemp.questoes.add(q1);
 	}
 }
