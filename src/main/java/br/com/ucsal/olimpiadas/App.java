@@ -83,7 +83,7 @@ public class App {
 			return;
 		}
 
-		var participanteId = escolherParticipante();
+		var participanteId = participanteController.escolherParticipante();
 		if (participanteId == null)
 			return;
 
@@ -138,26 +138,7 @@ public class App {
 		}
 	}
 
-	static Long escolherParticipante() {
-		System.out.println("\nParticipantes:");
-		for (var p : BancoDeDadosTemp.participantes) {
-			System.out.printf("  %d) %s%n", p.getId(), p.getNome());
-		}
-		System.out.print("Escolha o id do participante: ");
 
-		try {
-			long id = Long.parseLong( ConsoleView.pegaInput(""));
-			boolean existe = BancoDeDadosTemp.participantes.stream().anyMatch(p -> p.getId() == id);
-			if (!existe) {
-				System.out.println("id inválido");
-				return null;
-			}
-			return id;
-		} catch (Exception e) {
-			System.out.println("entrada inválida");
-			return null;
-		}
-	}
 
 	static void seed() {
 
