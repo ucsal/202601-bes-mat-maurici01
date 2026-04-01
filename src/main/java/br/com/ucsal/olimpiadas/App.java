@@ -2,6 +2,7 @@ package br.com.ucsal.olimpiadas;
 
 import br.com.ucsal.olimpiadas.model.*;
 import br.com.ucsal.olimpiadas.repository.BancoDeDadosTemp;
+import br.com.ucsal.olimpiadas.view.ConsoleView;
 import br.com.ucsal.olimpiadas.view.TabuleiroView;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class App {
 	* D – Dependency Inversion Principle (DIP)
 	*/
 
-	private static final Scanner in = new Scanner(System.in);
+
 
 	public static void main(String[] args) {
 		seed();
@@ -26,16 +27,9 @@ public class App {
 
 		// isso vai virar uma outra classe com um metodo chamado executar() 1
 		while (true) {
-			System.out.println("\n=== OLIMPÍADA DE QUESTÕES (V1) ===");
-			System.out.println("1) Cadastrar participante");
-			System.out.println("2) Cadastrar prova");
-			System.out.println("3) Cadastrar questão (A–E) em uma prova");
-			System.out.println("4) Aplicar prova (selecionar participante + prova)");
-			System.out.println("5) Listar tentativas (resumo)");
-			System.out.println("0) Sair");
-			System.out.print("> ");
 
-			switch (in.nextLine()) {
+
+			switch ( ConsoleView.pegaInput("")) {
 			case "1" -> cadastrarParticipante();
 			case "2" -> cadastrarProva();
 			case "3" -> cadastrarQuestao();
@@ -52,11 +46,9 @@ public class App {
 
 	//tem que sumir daqui, pode ser o mesmo nome porem em outro lugar algo do participante 2
 	static void cadastrarParticipante() {
-		System.out.print("Nome: ");
-		var nome = in.nextLine();
+		var nome = ConsoleView.pegaInput("Nome: ");
 
-		System.out.print("Email (opcional): ");
-		var email = in.nextLine();
+		var email = ConsoleView.pegaInput("Email (opcional): ");
 
 		if (nome == null || nome.isBlank()) {
 			System.out.println("nome inválido");
@@ -74,8 +66,7 @@ public class App {
 	// no 3 eu preciso tambem ter algo relacionado a exibição
 	//relacionado a criar novaProva 3
 	static void cadastrarProva() {
-		System.out.print("Título da prova: ");
-		var titulo = in.nextLine();
+		var titulo = ConsoleView.pegaInput("Título da prova: ");
 
 		if (titulo == null || titulo.isBlank()) {
 			System.out.println("título inválido");
@@ -101,19 +92,18 @@ public class App {
 			return;
 
 		System.out.println("Enunciado:");
-		var enunciado = in.nextLine();
+		var enunciado = ConsoleView.pegaInput("Enunciado: ");
 
 		var alternativas = new String[5];
 		for (int i = 0; i < 5; i++) {
 			char letra = (char) ('A' + i);
-			System.out.print("Alternativa " + letra + ": ");
-			alternativas[i] = letra + ") " + in.nextLine();
+			alternativas[i] = letra + ") " + ConsoleView.pegaInput("Alternativa " + letra + ": ");
 		}
 
 		System.out.print("Alternativa correta (A–E): ");
 		char correta;
 		try {
-			correta = Questao.normalizar(in.nextLine().trim().charAt(0));
+			correta = Questao.normalizar( ConsoleView.pegaInput("").trim().charAt(0));
 		} catch (Exception e) {
 			System.out.println("alternativa inválida");
 			return;
@@ -179,7 +169,7 @@ public class App {
 			System.out.print("Sua resposta (A–E): ");
 			char marcada;
 			try {
-				marcada = Questao.normalizar(in.nextLine().trim().charAt(0));
+				marcada = Questao.normalizar( ConsoleView.pegaInput("").trim().charAt(0));
 			} catch (Exception e) {
 				System.out.println("resposta inválida (marcando como errada)");
 				marcada = 'X';
@@ -220,7 +210,7 @@ public class App {
 		System.out.print("Escolha o id do participante: ");
 
 		try {
-			long id = Long.parseLong(in.nextLine());
+			long id = Long.parseLong( ConsoleView.pegaInput(""));
 			boolean existe = BancoDeDadosTemp.participantes.stream().anyMatch(p -> p.getId() == id);
 			if (!existe) {
 				System.out.println("id inválido");
@@ -242,7 +232,7 @@ public class App {
 		System.out.print("Escolha o id da prova: ");
 
 		try {
-			long id = Long.parseLong(in.nextLine());
+			long id = Long.parseLong( ConsoleView.pegaInput(""));
 			boolean existe = BancoDeDadosTemp.provas.stream().anyMatch(p -> p.getId() == id);
 			if (!existe) {
 				System.out.println("id inválido");
