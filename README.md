@@ -6,6 +6,7 @@ Alterado o cadastrarParticipante para o participanteController<p>
 Alterado tambem o App e removido o cadastrarParticipante, agora eu tenho uma instancia do meu participanteController<p>
 Alterado os metodos cadastrarProva e escolherProva para o provaController<p>
 Alterado escolherParticipante() para o participanteController<p>
+Alterado o cadastrarQuestao() para o questaoController<p>
 ------------------------------------------------------------<p>
 Aplicando o segundo princípio SOLID (Princípio Aberto/Fechado). <p>
 Alterado a classe Questao para abstract e criado os metodos exibirAluno e verificarResposta. <p>

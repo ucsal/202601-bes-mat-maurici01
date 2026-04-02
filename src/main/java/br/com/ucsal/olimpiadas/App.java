@@ -2,6 +2,7 @@ package br.com.ucsal.olimpiadas;
 
 import br.com.ucsal.olimpiadas.controller.ParticipanteController;
 import br.com.ucsal.olimpiadas.controller.ProvaController;
+import br.com.ucsal.olimpiadas.controller.QuestaoController;
 import br.com.ucsal.olimpiadas.model.*;
 import br.com.ucsal.olimpiadas.repository.BancoDeDadosTemp;
 import br.com.ucsal.olimpiadas.view.ConsoleView;
@@ -12,6 +13,7 @@ public class App {
 
 	private static final ParticipanteController participanteController = new ParticipanteController();
 	private static final ProvaController provaController = new ProvaController();
+	private static final QuestaoController questaoController = new QuestaoController(provaController);
 
 	static void main() {
 		seed();
@@ -21,7 +23,7 @@ public class App {
 			switch ( ConsoleView.pegaInput("")) {
 			case "1" -> participanteController.cadastrarParticipante();
 			case "2" -> provaController.cadastrarProva();
-			case "3" -> cadastrarQuestao();
+			case "3" -> questaoController.cadastrarQuestao();
 			case "4" -> aplicarProva();
 			case "5" -> listarTentativas();
 			case "0" -> {
@@ -31,46 +33,6 @@ public class App {
 			default -> System.out.println("opção inválida");
 			}
 		}
-	}
-
-	static void cadastrarQuestao() {
-		if (BancoDeDadosTemp.provas.isEmpty()) {
-			System.out.println("não há provas cadastradas");
-			return;
-		}
-
-		var provaId = provaController.escolherProva();
-		if (provaId == null)
-			return;
-
-		System.out.println("Enunciado:");
-		var enunciado = ConsoleView.pegaInput("Enunciado: ");
-
-		var alternativas = new String[5];
-		for (int i = 0; i < 5; i++) {
-			char letra = (char) ('A' + i);
-			alternativas[i] = letra + ") " + ConsoleView.pegaInput("Alternativa " + letra + ": ");
-		}
-
-		System.out.print("Alternativa correta (A–E): ");
-		char correta;
-		try {
-			correta = QuestaoTabuleiro.normalizar( ConsoleView.pegaInput("").trim().charAt(0));
-		} catch (Exception e) {
-			System.out.println("alternativa inválida");
-			return;
-		}
-
-		var q = new QuestaoTabuleiro();
-		q.setId(BancoDeDadosTemp.proximaQuestaoId++);
-		q.setProvaId(provaId);
-		q.setEnunciado(enunciado);
-		q.setAlternativas(alternativas);
-		q.setAlternativaCorreta(correta);
-
-		BancoDeDadosTemp.questoes.add(q);
-
-		System.out.println("Questão cadastrada: " + q.getId() + " (na prova " + provaId + ")");
 	}
 
 	static void aplicarProva() {
