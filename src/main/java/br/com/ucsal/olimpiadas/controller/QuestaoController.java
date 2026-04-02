@@ -26,7 +26,7 @@ public class QuestaoController {
             return;
 
         Questao q = cadastroQuestao.cadastrar(provaId);
-        if (q == null){
+        if (q != null){
             BancoDeDadosTemp.questoes.add(q);
             System.out.println("Questão cadastrada: " + q.getId() + " (na prova " + provaId + ")");
         }

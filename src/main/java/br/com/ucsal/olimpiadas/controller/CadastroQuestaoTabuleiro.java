@@ -8,7 +8,6 @@ import br.com.ucsal.olimpiadas.view.QuestaoTabuleiro;
 public class CadastroQuestaoTabuleiro implements CadastroQuestao{
     @Override
     public Questao cadastrar(Long provaId) {
-        System.out.println("Enunciado:");
         var enunciado = ConsoleView.pegaInput("Enunciado: ");
 
         var alternativas = new String[5];
