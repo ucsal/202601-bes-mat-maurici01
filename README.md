@@ -12,4 +12,5 @@ Alterado o listarTentativas e aplicarProva para o TentativaController<p>
 Aplicando o segundo princípio SOLID (Princípio Aberto/Fechado). <p>
 Alterado a classe Questao para abstract e criado os metodos exibirAluno e verificarResposta. <p>
 Criada a classe QuestaoTabuleiro que herda de Questao e implementa exibirAluno() e verificaResposta e Refatorado o metodo aplicarProva() <p>
+movido o seed() para o BancoDeDadosTemp, para atender ao principio aberto fechado<p>
 
