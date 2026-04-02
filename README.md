@@ -14,4 +14,9 @@ Alterado a classe Questao para abstract e criado os metodos exibirAluno e verifi
 Criada a classe QuestaoTabuleiro que herda de Questao e implementa exibirAluno() e verificaResposta e Refatorado o metodo aplicarProva() <p>
 movido o seed() para o BancoDeDadosTemp, para atender ao principio aberto fechado<p>
 Implementado a inteface para trazer uma generalização e uma especificação melhor, exemplo se no futuro tivermos questões de verdadeiro ou falso, ou questão discursiva ela pode ser implementada.<p>
-
+-----------------------------------------<p>
+Aplicando o terceiro princípio SOLID (Princípio da Substituição de Liskov). <p>
+Como já veio questões genericas eu acredito que ao implementar o resto esse principio já foi atendido.<p>
+-----------------------------------------<p>
+Aplicando o quarto princípio SOLID (Princípio da Segregação de Interface). <
+A interface CadastroQuestao atende o principio da segregação de interface, pois ela é específica para o cadastro de questões <p>
