@@ -13,4 +13,5 @@ Aplicando o segundo princípio SOLID (Princípio Aberto/Fechado). <p>
 Alterado a classe Questao para abstract e criado os metodos exibirAluno e verificarResposta. <p>
 Criada a classe QuestaoTabuleiro que herda de Questao e implementa exibirAluno() e verificaResposta e Refatorado o metodo aplicarProva() <p>
 movido o seed() para o BancoDeDadosTemp, para atender ao principio aberto fechado<p>
+Implementado a inteface para trazer uma generalização e uma especificação melhor, exemplo se no futuro tivermos questões de verdadeiro ou falso, ou questão discursiva ela pode ser implementada.<p>
 
