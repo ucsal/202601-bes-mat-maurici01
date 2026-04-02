@@ -1,4 +1,4 @@
-package br.com.ucsal.olimpiadas;
+package br.com.ucsal.olimpiadas.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +36,15 @@ public class Tentativa {
 
 	public List<Resposta> getRespostas() {
 		return respostas;
+	}
+
+	public int calcularNota() {
+		int acertos = 0;
+		for (var r : this.respostas) {
+			if (r.isCorreta())
+				acertos++;
+		}
+		return acertos;
 	}
 
 }
